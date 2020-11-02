@@ -45,7 +45,7 @@ function generateUI(json){
                   </div>
                   <div class="media-content">
                     <p class="title is-4">${repo.name}</p>
-                    <p class="subtitle is-6">@johnsmith</p>
+                    <p class="subtitle is-6">@felixbillon</p>
                   </div>
                 </div>
   
