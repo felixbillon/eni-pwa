@@ -7,21 +7,15 @@ function chunkArray(array, size) {
 
 const dateTimeFormat = Intl.DateTimeFormat("fr");
 
-function generateUI(json){
-  const repos = json.map(j => ({
-    name: j.name,
-    description: j.description || "",
-    updated_at: j.updated_at
-  }));
-
-  const chunks = chunkArray(repos, 3);
+function generateUI(json) {
+  const chunks = chunkArray(json, 3);
 
   let html = "";
 
-  chunks.forEach(chunk => {
+  chunks.forEach((chunk) => {
     html += '<div class="columns">';
 
-    chunk.forEach(repo => {
+    chunk.forEach((repo) => {
       html += `
             <div class="column">
             <div class="card">
@@ -66,9 +60,19 @@ function generateUI(json){
   document.querySelector(".container").innerHTML = html;
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-  fetch("https://api.github.com/users/felixbillon/repos")
-	.then(response => response.json())
-    .then(json => generateUI(json));
+document.addEventListener("DOMContentLoaded", function () {
+  if (navigator.onLine) {
+    document.querySelector(".notification").setAttribute("hidden", "");
+  }
 
+  window.addEventListener("online", () => {
+    document.querySelector(".notification").setAttribute("hidden", "");
+  });
+  window.addEventListener("offline", () => {
+    document.querySelector(".notification").removeAttribute("hidden");
+  });
+
+  fetch("https://api.github.com/users/felixbillon/repos")
+    .then((response) => response.json())
+    .then((json) => generateUI(json));
 });
